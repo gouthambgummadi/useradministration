@@ -1,8 +1,29 @@
-# .github/workflows/hello-world.yml
-name: Hello World
+name: MacBook Info Script
+
 on: [push]
+
 jobs:
-  say-hello:
+  wait-for-approval:
     runs-on: ubuntu-latest
+    outputs:
+      approved: ${{ steps.approval.outputs.approved }}
     steps:
-      - run: echo "Hello World"
+      - name: 🛑 Wait for your manual approval
+        uses: hmarr/auto-approve-action@v3
+        id: approval
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  run-script:
+    needs: wait-for-approval
+    runs-on: macos-latest
+    if: ${{ needs.wait-for-approval.result == 'success' }}
+    steps:
+      - name: ⬇️ Checkout Repo
+        uses: actions/checkout@v3
+
+      - name: 📜 Make Script Executable
+        run: chmod +x ./get_mac_info.sh
+
+      - name: 🚀 Run MacBook Info Script
+        run: ./get_mac_info.sh
