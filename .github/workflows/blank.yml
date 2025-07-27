@@ -3,21 +3,8 @@ name: MacBook Info Script
 on: [push]
 
 jobs:
-  wait-for-approval:
-    runs-on: ubuntu-latest
-    outputs:
-      approved: ${{ steps.approval.outputs.approved }}
-    steps:
-      - name: 🛑 Wait for your manual approval
-        uses: hmarr/auto-approve-action@v3
-        id: approval
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-
   run-script:
-    needs: wait-for-approval
     runs-on: macos-latest
-    if: ${{ needs.wait-for-approval.result == 'success' }}
     steps:
       - name: ⬇️ Checkout Repo
         uses: actions/checkout@v3
