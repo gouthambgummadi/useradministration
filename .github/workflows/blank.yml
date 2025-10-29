@@ -8,8 +8,4 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: ⬇️ Checkout Repo
-        uses: actions/checkout@v3
-
-      - name: 🔍 Run PowerShell script
-        shell: pwsh
-        run: ./userinfo.ps1
+        run: echo "hello world"
