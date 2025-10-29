@@ -1,6 +1,7 @@
 name: Run PowerShell Script
 
-on: [push]
+on: 
+  workflow_dispatch:
 
 jobs:
   run-userinfo:
